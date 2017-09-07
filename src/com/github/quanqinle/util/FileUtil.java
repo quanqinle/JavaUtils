@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,9 +20,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.quanqinle.util.FileUtil;
-import com.github.quanqinle.util.LogUtil;
 
 /**
  * 文件操作
@@ -68,15 +64,20 @@ public class FileUtil {
      * @param fileName   文件名（兼容有/无后缀.csv两种情况）
      * @param content    写入内容，自行用半角逗号分隔
      */
-    public static void write2Csv(String folderName, String fileName, String content) {
+	public static void write2Csv(String folderName, String fileName, String content, boolean isDelete) {
 
         try {
             createFolder(folderName);
-            String resultFilePath = folderName + File.separator + fileName;
-            if (!resultFilePath.endsWith(".csv")) {
-                resultFilePath += ".csv";
+			if (!fileName.endsWith(".csv")) {
+                fileName += ".csv";
             }
+            String resultFilePath = folderName + File.separator + fileName;
+            
             File resultFile = new File(resultFilePath);
+			// 为了便于jenkins文件发送，数据分析时需要先删除已有文件，重新生成，做兼容
+			if (isDelete && resultFile.exists()) {
+				resultFile.delete();
+			}
             resultFile.createNewFile();
             out = new FileOutputStream(resultFile, true);// 文末追加
             osw = new OutputStreamWriter(out, "UTF-8");
@@ -109,7 +110,8 @@ public class FileUtil {
 
         // 第1行是字段名，不用存放到数据对象中
         for (int i = lineInList; i < linecnt; i++) {
-            String line = lines.get(lineInList);
+			String line = lines.get(i);
+			LogUtil.info(line);
             result[i - lineInList] = line.split(",");
         }
 
@@ -313,7 +315,7 @@ public class FileUtil {
         BufferedReader reader = null;
         try {
             LogUtil.debug("以行为单位读取文件内容，一次读一整行：");
-            reader = new BufferedReader(new FileReader(file));
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
             String tempString = null;
             int line = 1;
             // 一次读入一行，直到读入null为文件结束
