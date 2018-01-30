@@ -7,25 +7,18 @@ import java.math.BigDecimal;
  */
 public class DoubleUtil {
 
-
 	// 默认除法运算精度
 	private static final int DEF_DIV_SCALE = 2;
 	// 默认乘法运算精度
 	private static final int DEF_MUL_SCALE = 2;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-	}
-
 	// 这个类不能实例化
-	private DoubleUtil() {
+	private DoubleUtils() {
 
 	}
 
 	/**
-	 * 提供精确的加法运算。
+	 * 加法运算
 	 * 
 	 * @param v1
 	 *            被加数
@@ -38,9 +31,24 @@ public class DoubleUtil {
 		BigDecimal b2 = new BigDecimal(Double.toString(v2));
 		return b1.add(b2).doubleValue();
 	}
+	/**
+	 * 加法运算
+	 * @param addend
+	 * @param augend
+	 * @return {@code addend + ... + augend}
+	 */
+	public static double add(double addend, double... augend) {
+		BigDecimal b1 = new BigDecimal(Double.toString(addend));
+		
+		for (double d : augend) {
+			BigDecimal b2 = new BigDecimal(Double.toString(d));
+			b1 = b1.add(b2);
+		}
+		return b1.doubleValue();
+	}
 
 	/**
-	 * 提供精确的减法运算。
+	 * 减法运算
 	 * 
 	 * @param v1
 	 *            被减数
@@ -55,7 +63,23 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 提供精确的乘法运算。
+	 * 减法运算
+	 * @param minuend 被减数
+	 * @param subtrahends 减数
+	 * @return {@code minuend - ... - subtrahends}
+	 */
+	public static double sub(double minuend, double... subtrahends) {
+		BigDecimal b1 = new BigDecimal(Double.toString(minuend));
+		for (double d : subtrahends) {
+			BigDecimal b2 = new BigDecimal(Double.toString(d));
+			b1 = b1.subtract(b2);
+		}
+		
+		return b1.doubleValue();
+	}
+	
+	/**
+	 * 乘法运算，四舍五入保留2位小数。
 	 * 
 	 * @param v1
 	 *            被乘数
@@ -68,7 +92,7 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 提供精确的乘法运算。
+	 * 乘法运算，精确到小数点以后指定位数
 	 * 
 	 * @param v1
 	 *            被乘数
@@ -85,7 +109,7 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到小数点以后2位，以后的数字四舍五入
+	 * 除法运算，四舍五入精确到2位小数
 	 * 
 	 * @param v1
 	 *            被除数
@@ -98,7 +122,7 @@ public class DoubleUtil {
 	}
 
 	/**
-	 * 提供（相对）精确的除法运算。当发生除不尽的情况时，由scale参数指 定精度，以后的数字“四舍五入”。
+	 * 除法运算。当发生除不尽的情况时，由scale参数指定精度，以后的数字“四舍五入”。
 	 * 
 	 * @param v1
 	 *            被除数
@@ -120,5 +144,4 @@ public class DoubleUtil {
 		 */
 		return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
-
 }
