@@ -13,7 +13,7 @@ public class DoubleUtil {
 	private static final int DEF_MUL_SCALE = 2;
 
 	// 这个类不能实例化
-	private DoubleUtils() {
+	private DoubleUtil() {
 
 	}
 
