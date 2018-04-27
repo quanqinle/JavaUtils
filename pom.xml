@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>25.0-jre</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -64,7 +64,7 @@
             <!-- jsoup HTML parser library @ https://jsoup.org/ -->
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.3</version>
+            <version>1.11.3</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
