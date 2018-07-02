@@ -2,6 +2,8 @@ package com.github.quanqinle.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -10,6 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.junit.Test;
 
 import com.github.quanqinle.util.ReadExcel;
@@ -24,7 +27,7 @@ public class ExeclTest {
 		return Thread.currentThread().getContextClassLoader().getResourceAsStream("" + fileName);
 	}
 
-	@Test
+//	@Test
 	public void readExcel_01() {
 		// Use an InputStream, needs more memory
 		Workbook workbook = null;
@@ -57,7 +60,7 @@ public class ExeclTest {
 		}
 	}
 
-//	@Test
+	@Test
 	public void readExcel_02() {
 		// Use an InputStream, needs more memory
 		Workbook workbook = null;
@@ -68,7 +71,8 @@ public class ExeclTest {
 			e.printStackTrace();
 		}
 
-		Sheet sheet = workbook.getSheet("合并所有者权益变动表");
+		Sheet sheet = workbook.getSheet("所有者权益变动表");
+
 		int rownum = 0;
 		for (Row row : sheet) {
 			if (rownum > 10) {
