@@ -4,6 +4,8 @@
 package com.github.quanqinle.excelutil;
 
 /**
+ * 行的表头（竖着排列的）
+ * 
  * @author quanql
  *
  */

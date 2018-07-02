@@ -195,7 +195,7 @@ public class ReadExcel {
 	 * @param cell单元格
 	 * @return 单元格里的值
 	 */
-	public static String getValue_new(Cell cell) {
+	public String getValue_new(Cell cell) {
 		CellType cellType = cell.getCellTypeEnum();
 
 		// FIXME
