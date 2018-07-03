@@ -1,11 +1,9 @@
 package com.github.quanqinle.excelutil;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.util.StringUtil;
 
 /**
  * @author quanql
@@ -14,7 +12,7 @@ import org.apache.poi.util.StringUtil;
 public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
-	 * column or row index of this cell
+	 * column or row index of this cell (0-based)
 	 */
 	private int index = -1;
 	/**

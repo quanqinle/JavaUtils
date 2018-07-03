@@ -23,6 +23,18 @@ import com.github.quanqinle.util.ReadExcel;
  */
 public class ExeclTest {
 
+  public Workbook createWorkbook(String filenameInResource) {
+    InputStream inp = Thread.currentThread().getContextClassLoader().getResourceAsStream("" + filenameInResource);
+    Workbook workbook = null;
+
+    try {
+      workbook = WorkbookFactory.create(inp);
+    } catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+      e.printStackTrace();
+    }
+    return workbook;
+  }
+  
 	private InputStream getInputStream(String fileName) {
 		return Thread.currentThread().getContextClassLoader().getResourceAsStream("" + fileName);
 	}

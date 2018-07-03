@@ -179,44 +179,27 @@ public class ReadExcel {
 	 * @return 单元格里的值
 	 */
 	public static String getValue(Cell cell) {
+	  if (cell == null) {
+      return "";
+    }
 		CellType cellType = cell.getCellTypeEnum();
-		if (cellType == CellType.BOOLEAN) {
-			return String.valueOf(cell.getBooleanCellValue());
-		} else if (cellType == CellType.NUMERIC) {
-			return NumberToTextConverter.toText(cell.getNumericCellValue());
-		} else {
-			return String.valueOf(cell.getStringCellValue());
-		}
-	}
-
-	/**
-	 * 读取cell值，以string类型返回
-	 *
-	 * @param cell单元格
-	 * @return 单元格里的值
-	 */
-	public String getValue_new(Cell cell) {
-		CellType cellType = cell.getCellTypeEnum();
-
-		// FIXME
 		if (cellType == CellType.STRING) {
-			return cell.getRichStringCellValue().getString();
-		} else if (cellType == CellType.NUMERIC) {
-			if (DateUtil.isCellDateFormatted(cell)) {
-				return cell.getDateCellValue().toString();
-			} else {
-				return NumberToTextConverter.toText(cell.getNumericCellValue());
-			}
-		} else if (cellType == CellType.BOOLEAN) {
-			return String.valueOf(cell.getBooleanCellValue());
-		} else if (cellType == CellType.FORMULA) {
-			return cell.getCellFormula();
-		} else if (cellType == CellType.BLANK) {
-			return String.valueOf(cell.getStringCellValue());
-		} else {
-			return String.valueOf(cell.getStringCellValue());
-		}
-
+      return cell.getRichStringCellValue().getString();
+    } else if (cellType == CellType.NUMERIC) {
+      if (DateUtil.isCellDateFormatted(cell)) {
+        return cell.getDateCellValue().toString();
+      } else {
+        return NumberToTextConverter.toText(cell.getNumericCellValue());
+      }
+    } else if (cellType == CellType.FORMULA) {
+      return cell.getCellFormula();
+    } else if (cellType == CellType.BOOLEAN) {
+      return String.valueOf(cell.getBooleanCellValue());
+    }  else if (cellType == CellType.BLANK) {
+      return String.valueOf(cell.getStringCellValue());
+    } else {
+      return String.valueOf(cell.getStringCellValue());
+    }
 	}
 
 	/**
