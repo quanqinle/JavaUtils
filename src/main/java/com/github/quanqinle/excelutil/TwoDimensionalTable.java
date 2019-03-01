@@ -32,7 +32,7 @@ public class TwoDimensionalTable {
     try {
       headerRow.setColsByTemplate(workbookTemplate);
       headerRow.setColsIndex(workbookData.getSheet("所有者权益变动表"));
-      headerColumn.setRowsByTemplate(workbookTemplate);
+      headerColumn.setRowsNameByTemplate(workbookTemplate);
       headerColumn.setRowsIndex(workbookData.getSheet("所有者权益变动表"));
       
       for (HeaderCell colCell : headerRow.getCols()) {

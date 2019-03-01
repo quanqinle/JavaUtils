@@ -190,7 +190,7 @@ public class HeaderColumn {
    * 
    * @param workbook
    */
-  public void setRowsByTemplate(Workbook workbook) {
+  public void setRowsNameByTemplate(Workbook workbook) {
     Sheet sheet = workbook.getSheet("竖表头");
     int header = 2;
     for (Row row : sheet) {
@@ -212,15 +212,44 @@ public class HeaderColumn {
   }
 
   /**
+   * 获取没有初始化index的表头
+   * 
+   * @param sheet
+   */
+  protected List<HeaderCell> getHeaderCellsNoInitIndex() {
+    List<HeaderCell> hCells = new ArrayList<HeaderCell>();
+    for (HeaderCell headerCell : rows) {
+      if (headerCell.getIndex() == -1) {
+        hCells.add(headerCell);
+      }
+    }
+    return hCells;
+  }
+  /**
+   * 获取没有约束前辈节点的表头
+   * 
+   * @param sheet
+   */
+  protected List<HeaderCell> getHeaderCellsNoPreCell() {
+    List<HeaderCell> hCells = new ArrayList<HeaderCell>();
+    for (HeaderCell headerCell : rows) {
+      if (!StringUtils.isEmpty(headerCell.getPreCellName())) {
+        hCells.add(headerCell);
+      }
+    }
+    return hCells;
+  }
+  
+  /**
    * 设置部分表头的index（即，没有约束前辈节点的表头）
    * 
    * @param sheet
    */
-  protected void setColsIndexNoPreCell(Sheet sheet) {
+  protected void setRowsIndexNoPreCell(Sheet sheet) {
     boolean foundFirstCell = false;
     int minColIdx = getMinColIndex();
     int maxColIdx = getMaxColIndex();
-    int minRowIdx = Math.min(sheet.getFirstRowNum(), getMinRowIndex());
+    int minRowIdx = Math.max(sheet.getFirstRowNum(), getMinRowIndex());
     int maxRowIdx = Math.min(sheet.getLastRowNum(), getMaxRowIndex());
     
     for (int colIdx = minColIdx; colIdx < maxColIdx; colIdx++) {
@@ -229,7 +258,7 @@ public class HeaderColumn {
         if (row == null) {
           continue;
         }
-        minColIdx = Math.min(row.getFirstCellNum(), minColIdx);
+        minColIdx = Math.max(row.getFirstCellNum(), minColIdx);
         maxColIdx = Math.min(row.getLastCellNum(), maxColIdx);
         
         Cell cell = row.getCell(colIdx);
@@ -241,7 +270,7 @@ public class HeaderColumn {
           continue;
         }
         
-        for (HeaderCell headerCell : cols) {
+        for (HeaderCell headerCell : getHeaderCellsNoPreCell()) {
           if (headerCell.isMe(value)) {
             headerCell.setIndex(rowIdx);
             this.setColumnIndex(Math.max(this.getColumnIndex(), cell.getColumnIndex()));
