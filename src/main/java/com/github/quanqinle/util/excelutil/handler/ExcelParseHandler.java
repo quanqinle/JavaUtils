@@ -6,6 +6,6 @@ import com.github.quanqinle.util.excelutil.param.ParserParam;
 
 public interface ExcelParseHandler<T> {
 
-  List<T> process(ParserParam parserParam) throws Exception;
+	List<T> process(ParserParam parserParam) throws Exception;
 
 }

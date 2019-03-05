@@ -95,7 +95,7 @@ public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
 	 * @param index
-	 *            the index to set
+	 *          the index to set
 	 */
 	public void setIndex(int index) {
 		this.index = index;
@@ -110,7 +110,7 @@ public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
 	 * @param name
-	 *            the name to set
+	 *          the name to set
 	 */
 	public void setName(String name) {
 		this.name = delAllWhitespace(name);
@@ -125,7 +125,7 @@ public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
 	 * @param separator
-	 *            the separator to set
+	 *          the separator to set
 	 */
 	public void setSeparator(String separator) {
 		if (!StringUtils.isEmpty(separator)) {
@@ -142,7 +142,7 @@ public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
 	 * @param aliasName
-	 *            the aliasName to set
+	 *          the aliasName to set
 	 */
 	public void setAliasName(String aliasName) {
 		this.aliasName = Arrays.asList(StringUtils.split(delAllWhitespace(aliasName), separator));
@@ -150,7 +150,7 @@ public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
 	 * @param aliasName
-	 *            the aliasName to set
+	 *          the aliasName to set
 	 */
 	public void setAliasName(List<String> aliasName) {
 		this.aliasName = aliasName;
@@ -165,7 +165,7 @@ public class HeaderCell implements Comparable<HeaderCell> {
 
 	/**
 	 * @param preCellName
-	 *            the preCellName to set
+	 *          the preCellName to set
 	 */
 	public void setPreCellName(String preCellName) {
 		this.preCellName = delAllWhitespace(preCellName);

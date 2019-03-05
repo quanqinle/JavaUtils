@@ -26,74 +26,74 @@ import java.util.List;
 public class Excel2007ParseHandler<T> extends BaseExcelParseHandler<T>
     implements XSSFSheetXMLHandler.SheetContentsHandler {
 
-  private int currentRow = -1;
-  private int currentCol = -1;
-  private ParserParam parserParam;
-  private List<T> result;
-  private List<String> rowData;
+	private int currentRow = -1;
+	private int currentCol = -1;
+	private ParserParam parserParam;
+	private List<T> result;
+	private List<String> rowData;
 
-  public List<T> process(ParserParam parserParam) throws Exception {
-    this.parserParam = parserParam;
-    result = new ArrayList<>();
-    rowData = initRowList(parserParam.getColumnSize());
-    OPCPackage xlsxPackage = OPCPackage.open(parserParam.getExcelInputStream());
-    ReadOnlySharedStringsTable strings = new ReadOnlySharedStringsTable(xlsxPackage, false);
-    XSSFReader xssfReader = new XSSFReader(xlsxPackage);
-    StylesTable styles = xssfReader.getStylesTable();
-    XSSFReader.SheetIterator iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
-    int needParse = 0;
-    while (iter.hasNext()) {
-      InputStream stream = iter.next();
-      if (needParse++ == parserParam.getSheetNum()) {
-        processSheet(styles, strings, this, stream);
-      }
-      stream.close();
-    }
-    return result;
-  }
+	public List<T> process(ParserParam parserParam) throws Exception {
+		this.parserParam = parserParam;
+		result = new ArrayList<>();
+		rowData = initRowList(parserParam.getColumnSize());
+		OPCPackage xlsxPackage = OPCPackage.open(parserParam.getExcelInputStream());
+		ReadOnlySharedStringsTable strings = new ReadOnlySharedStringsTable(xlsxPackage, false);
+		XSSFReader xssfReader = new XSSFReader(xlsxPackage);
+		StylesTable styles = xssfReader.getStylesTable();
+		XSSFReader.SheetIterator iter = (XSSFReader.SheetIterator) xssfReader.getSheetsData();
+		int needParse = 0;
+		while (iter.hasNext()) {
+			InputStream stream = iter.next();
+			if (needParse++ == parserParam.getSheetNum()) {
+				processSheet(styles, strings, this, stream);
+			}
+			stream.close();
+		}
+		return result;
+	}
 
-  private void processSheet(StylesTable styles, ReadOnlySharedStringsTable strings,
-      XSSFSheetXMLHandler.SheetContentsHandler sheetHandler, InputStream sheetInputStream)
-      throws IOException, SAXException {
-    DataFormatter formatter = new DataFormatter();
-    InputSource sheetSource = new InputSource(sheetInputStream);
-    try {
-      XMLReader sheetParser = SAXHelper.newXMLReader();
-      ContentHandler handler = new XSSFSheetXMLHandler(styles, null, strings, sheetHandler, formatter, false);
-      sheetParser.setContentHandler(handler);
-      sheetParser.parse(sheetSource);
-    } catch (ParserConfigurationException e) {
-      throw new RuntimeException("SAX parser appears to be broken - " + e.getMessage());
-    }
-  }
+	private void processSheet(StylesTable styles, ReadOnlySharedStringsTable strings,
+	    XSSFSheetXMLHandler.SheetContentsHandler sheetHandler, InputStream sheetInputStream)
+	    throws IOException, SAXException {
+		DataFormatter formatter = new DataFormatter();
+		InputSource sheetSource = new InputSource(sheetInputStream);
+		try {
+			XMLReader sheetParser = SAXHelper.newXMLReader();
+			ContentHandler handler = new XSSFSheetXMLHandler(styles, null, strings, sheetHandler, formatter, false);
+			sheetParser.setContentHandler(handler);
+			sheetParser.parse(sheetSource);
+		} catch (ParserConfigurationException e) {
+			throw new RuntimeException("SAX parser appears to be broken - " + e.getMessage());
+		}
+	}
 
-  @Override
-  public void startRow(int rowNum) {
-    currentRow = rowNum;
-    currentCol = -1;
-  }
+	@Override
+	public void startRow(int rowNum) {
+		currentRow = rowNum;
+		currentCol = -1;
+	}
 
-  @Override
-  public void endRow(int rowNum) {
-    handleEndOfRow(parserParam, rowData, result);
-    rowData = initRowList(parserParam.getColumnSize());
-    currentCol = -1;
-  }
+	@Override
+	public void endRow(int rowNum) {
+		handleEndOfRow(parserParam, rowData, result);
+		rowData = initRowList(parserParam.getColumnSize());
+		currentCol = -1;
+	}
 
-  @Override
-  public void cell(String cellReference, String formattedValue, XSSFComment comment) {
+	@Override
+	public void cell(String cellReference, String formattedValue, XSSFComment comment) {
 
-    if (cellReference == null) {
-      cellReference = new CellAddress(currentRow, currentCol).formatAsString();
-    }
+		if (cellReference == null) {
+			cellReference = new CellAddress(currentRow, currentCol).formatAsString();
+		}
 
-    currentCol = (new CellReference(cellReference)).getCol();
-    if (currentCol < parserParam.getColumnSize())
-      rowData.set(currentCol, formattedValue.trim());
-  }
+		currentCol = (new CellReference(cellReference)).getCol();
+		if (currentCol < parserParam.getColumnSize())
+			rowData.set(currentCol, formattedValue.trim());
+	}
 
-  @Override
-  public void headerFooter(String text, boolean isHeader, String tagName) {
+	@Override
+	public void headerFooter(String text, boolean isHeader, String tagName) {
 
-  }
+	}
 }

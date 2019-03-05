@@ -12,5 +12,5 @@ import com.github.quanqinle.util.excelutil.param.ParserParam;
  * @param <T>
  */
 public interface ExcelParser<T> {
-  List<T> parse(ParserParam parserParam);
+	List<T> parse(ParserParam parserParam);
 }

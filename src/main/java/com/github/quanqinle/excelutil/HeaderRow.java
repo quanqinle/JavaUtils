@@ -15,8 +15,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.github.quanqinle.util.ReadExcel;
 
 /**
- * 横表头（横着排列的，每列的表头）
- * TODO succ
+ * 横表头（横着排列的，每列的表头） TODO succ
+ * 
  * @author quanql
  *
  */
@@ -53,122 +53,130 @@ public class HeaderRow {
 	 * 表头单元格列表（隐藏列）
 	 */
 	private List<Integer> hiddenColIdxList = new ArrayList<Integer>();
-	
+
 	/**
-   * @return the multiLevel
-   */
-  public int getMultiLevel() {
-    return multiLevel;
-  }
-
-  /**
-   * @param multiLevel the multiLevel to set
-   */
-  public void setMultiLevel(int multiLevel) {
-    this.multiLevel = multiLevel;
-  }
-
-  /**
-   * @return the rowIndex
-   */
-  public int getRowIndex() {
-    return rowIndex;
-  }
-
-  /**
-   * @param rowIndex the rowIndex to set
-   */
-  public void setRowIndex(int rowIndex) {
-    this.rowIndex = rowIndex;
-  }
-
-  /**
-   * @return the minColIndex
-   */
-  public int getMinColIndex() {
-    return minColIndex;
-  }
-
-  /**
-   * @param minColIndex the minColIndex to set
-   */
-  public void setMinColIndex(int minColIndex) {
-    this.minColIndex = minColIndex;
-  }
-
-  /**
-   * @return the maxColIndex
-   */
-  public int getMaxColIndex() {
-    return maxColIndex;
-  }
-
-  /**
-   * @param maxColIndex the maxColIndex to set
-   */
-  public void setMaxColIndex(int maxColIndex) {
-    this.maxColIndex = maxColIndex;
-  }
-
-  /**
-   * @return the minRowIndex
-   */
-  public int getMinRowIndex() {
-    return minRowIndex;
-  }
-
-  /**
-   * @param minRowIndex the minRowIndex to set
-   */
-  public void setMinRowIndex(int minRowIndex) {
-    this.minRowIndex = minRowIndex;
-  }
-
-  /**
-   * @return the maxRowIndex
-   */
-  public int getMaxRowIndex() {
-    return maxRowIndex;
-  }
-
-  /**
-   * @param maxRowIndex the maxRowIndex to set
-   */
-  public void setMaxRowIndex(int maxRowIndex) {
-    this.maxRowIndex = maxRowIndex;
-  }
-
-  /**
-   * @return the cols
-   */
-  public List<HeaderCell> getCols() {
-    return cols;
-  }
-
-  /**
-   * @param cols the cols to set
-   */
-  public void setCols(List<HeaderCell> cols) {
-    this.cols = cols;
-  }
-
-  /**
-   * @return the hiddenColIdxList
-   */
-  public List<Integer> getHiddenColIdxList() {
-    return hiddenColIdxList;
-  }
-
-  /**
-   * @param hiddenColIdxList the hiddenColIdxList to set
-   */
-  public void setHiddenColIdxList(List<Integer> hiddenColIdxList) {
-    this.hiddenColIdxList = hiddenColIdxList;
-  }
-
-  public HeaderRow() {
+	 * @return the multiLevel
+	 */
+	public int getMultiLevel() {
+		return multiLevel;
 	}
-	
+
+	/**
+	 * @param multiLevel
+	 *          the multiLevel to set
+	 */
+	public void setMultiLevel(int multiLevel) {
+		this.multiLevel = multiLevel;
+	}
+
+	/**
+	 * @return the rowIndex
+	 */
+	public int getRowIndex() {
+		return rowIndex;
+	}
+
+	/**
+	 * @param rowIndex
+	 *          the rowIndex to set
+	 */
+	public void setRowIndex(int rowIndex) {
+		this.rowIndex = rowIndex;
+	}
+
+	/**
+	 * @return the minColIndex
+	 */
+	public int getMinColIndex() {
+		return minColIndex;
+	}
+
+	/**
+	 * @param minColIndex
+	 *          the minColIndex to set
+	 */
+	public void setMinColIndex(int minColIndex) {
+		this.minColIndex = minColIndex;
+	}
+
+	/**
+	 * @return the maxColIndex
+	 */
+	public int getMaxColIndex() {
+		return maxColIndex;
+	}
+
+	/**
+	 * @param maxColIndex
+	 *          the maxColIndex to set
+	 */
+	public void setMaxColIndex(int maxColIndex) {
+		this.maxColIndex = maxColIndex;
+	}
+
+	/**
+	 * @return the minRowIndex
+	 */
+	public int getMinRowIndex() {
+		return minRowIndex;
+	}
+
+	/**
+	 * @param minRowIndex
+	 *          the minRowIndex to set
+	 */
+	public void setMinRowIndex(int minRowIndex) {
+		this.minRowIndex = minRowIndex;
+	}
+
+	/**
+	 * @return the maxRowIndex
+	 */
+	public int getMaxRowIndex() {
+		return maxRowIndex;
+	}
+
+	/**
+	 * @param maxRowIndex
+	 *          the maxRowIndex to set
+	 */
+	public void setMaxRowIndex(int maxRowIndex) {
+		this.maxRowIndex = maxRowIndex;
+	}
+
+	/**
+	 * @return the cols
+	 */
+	public List<HeaderCell> getCols() {
+		return cols;
+	}
+
+	/**
+	 * @param cols
+	 *          the cols to set
+	 */
+	public void setCols(List<HeaderCell> cols) {
+		this.cols = cols;
+	}
+
+	/**
+	 * @return the hiddenColIdxList
+	 */
+	public List<Integer> getHiddenColIdxList() {
+		return hiddenColIdxList;
+	}
+
+	/**
+	 * @param hiddenColIdxList
+	 *          the hiddenColIdxList to set
+	 */
+	public void setHiddenColIdxList(List<Integer> hiddenColIdxList) {
+		this.hiddenColIdxList = hiddenColIdxList;
+	}
+
+	public HeaderRow() {
+	}
+
 	/**
 	 * 
 	 * @param multiLevel
@@ -185,6 +193,7 @@ public class HeaderRow {
 		this.minColIndex = minColIndex;
 		this.maxColIndex = maxColIndex;
 	}
+
 	/**
 	 * 根据excel模板初始化列表头name等信息
 	 * 
@@ -210,7 +219,7 @@ public class HeaderRow {
 			this.cols.add(c);
 		}
 	}
-	
+
 	/**
 	 * 根据excel sheet数据初始化列表头index等信息
 	 * 
@@ -229,7 +238,7 @@ public class HeaderRow {
 
 			int firstColIdx = Math.min(row.getFirstCellNum(), getMinColIndex());
 			int lastColIdx = Math.max(row.getLastCellNum(), getMaxColIndex());
-			
+
 			for (HeaderCell headerCell : cols) {
 				String preCellName = headerCell.getPreCellName();
 				boolean foundPreCell = StringUtils.isEmpty(preCellName);
@@ -240,7 +249,7 @@ public class HeaderRow {
 					}
 
 					String value = StringUtils.deleteWhitespace(ReadExcel.getValue(cell));
-					
+
 					if (foundPreCell && headerCell.isMe(value)) {
 						headerCell.setIndex(colIdx);
 						this.setRowIndex(Math.max(this.getRowIndex(), cell.getRowIndex()));
@@ -258,7 +267,7 @@ public class HeaderRow {
 					}
 				}
 			}
-			
+
 		}
 	}
 
@@ -274,7 +283,7 @@ public class HeaderRow {
 		if (StringUtils.isWhitespace(cellname) || StringUtils.isEmpty(cellname)) {
 			return null;
 		}
-		
+
 		boolean findPreCell = false;
 		if (StringUtils.isWhitespace(preCellName) || StringUtils.isEmpty(preCellName)) {
 			findPreCell = true;
@@ -282,7 +291,7 @@ public class HeaderRow {
 		for (HeaderCell headerCell : this.cols) {
 			if (findPreCell || headerCell.isMe(preCellName)) {
 				findPreCell = true;
-				
+
 			}
 			if (findPreCell && headerCell.isMe(cellname)) {
 				return headerCell;
@@ -290,6 +299,7 @@ public class HeaderRow {
 		}
 		return null;
 	}
+
 	/**
 	 * @param args
 	 */

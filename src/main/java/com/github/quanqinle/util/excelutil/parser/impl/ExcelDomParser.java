@@ -7,14 +7,14 @@ import java.io.InputStream;
 
 public class ExcelDomParser<T> extends AbstractExcelParser<T> {
 
-  private ExcelParseHandler<T> excelParseHandler;
+	private ExcelParseHandler<T> excelParseHandler;
 
-  public ExcelDomParser() {
-    this.excelParseHandler = new ExcelDomParseHandler<>();
-  }
+	public ExcelDomParser() {
+		this.excelParseHandler = new ExcelDomParseHandler<>();
+	}
 
-  @Override
-  protected ExcelParseHandler<T> createHandler(InputStream excelInputStream) {
-    return this.excelParseHandler;
-  }
+	@Override
+	protected ExcelParseHandler<T> createHandler(InputStream excelInputStream) {
+		return this.excelParseHandler;
+	}
 }
