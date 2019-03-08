@@ -8,13 +8,13 @@ import org.apache.poi.hssf.record.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-import com.github.quanqinle.util.excelutil.param.ParserParam;
+import com.github.quanqinle.util.excelutil.param.ParamParser;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Excel2003ParseHandler<T> extends BaseExcelParseHandler<T> implements HSSFListener {
+public class Excel2003ParserHandler<T> extends BaseExcelParserHandler<T> implements HSSFListener {
 
 	/**
 	 * Should we output the formula, or the value it has?
@@ -41,15 +41,15 @@ public class Excel2003ParseHandler<T> extends BaseExcelParseHandler<T> implement
 	private boolean outputNextStringRecord;
 	private Integer curSheet = -1;
 
-	private ParserParam parserParam;
+	private ParamParser paramParser;
 	private List<String> rowData;
 	private List<T> result;
 
-	public List<T> process(ParserParam parserParam) throws Exception {
-		this.parserParam = parserParam;
+	public List<T> process(ParamParser paramParser) throws Exception {
+		this.paramParser = paramParser;
 		result = new ArrayList<>();
-		rowData = initRowList(parserParam.getColumnSize());
-		POIFSFileSystem fs = new POIFSFileSystem(parserParam.getExcelInputStream());
+		rowData = initRowList(paramParser.getColumnSize());
+		POIFSFileSystem fs = new POIFSFileSystem(paramParser.getExcelInputStream());
 		MissingRecordAwareHSSFListener listener = new MissingRecordAwareHSSFListener(this);
 		formatListener = new FormatTrackingHSSFListener(listener);
 
@@ -178,7 +178,7 @@ public class Excel2003ParseHandler<T> extends BaseExcelParseHandler<T> implement
 		default:
 			break;
 		}
-		if (!Objects.equals(curSheet, parserParam.getSheetNum())) {
+		if (!Objects.equals(curSheet, paramParser.getSheetNum())) {
 			return;
 		}
 
@@ -190,15 +190,15 @@ public class Excel2003ParseHandler<T> extends BaseExcelParseHandler<T> implement
 		}
 
 		// If we got something to print out, do so
-		if (thisStr != null && thisColumn < parserParam.getColumnSize()) {
+		if (thisStr != null && thisColumn < paramParser.getColumnSize()) {
 			rowData.set(thisColumn, thisStr.trim());
 		}
 
 		// Handle end of row
 		if (record instanceof LastCellOfRowDummyRecord) {
 			// End the row
-			handleEndOfRow(parserParam, rowData, result);
-			rowData = initRowList(parserParam.getColumnSize());
+			handleEndOfRow(paramParser, rowData, result);
+			rowData = initRowList(paramParser.getColumnSize());
 		}
 	}
 }

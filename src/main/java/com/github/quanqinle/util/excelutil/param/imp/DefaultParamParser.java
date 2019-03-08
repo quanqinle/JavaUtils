@@ -3,9 +3,9 @@ package com.github.quanqinle.util.excelutil.param.imp;
 import java.io.InputStream;
 import java.util.List;
 
-import com.github.quanqinle.util.excelutil.param.ParserParam;
+import com.github.quanqinle.util.excelutil.param.ParamParser;
 
-public class DefaultParserParam implements ParserParam {
+public class DefaultParamParser implements ParamParser {
 
 	private InputStream inputStream;
 	private Class<?> targetClass;
@@ -13,7 +13,7 @@ public class DefaultParserParam implements ParserParam {
 	private List<String> header;
 	private Integer sheetNum;
 
-	private DefaultParserParam(InputStream inputStream, Class<?> targetClass, Integer columnSize, List<String> header,
+	private DefaultParamParser(InputStream inputStream, Class<?> targetClass, Integer columnSize, List<String> header,
 	    Integer sheetNum) {
 		this.inputStream = inputStream;
 		this.targetClass = targetClass;
@@ -84,8 +84,8 @@ public class DefaultParserParam implements ParserParam {
 			return this;
 		}
 
-		public DefaultParserParam build() {
-			return new DefaultParserParam(inputStream, targetClass, columnSize, header, sheetNum);
+		public DefaultParamParser build() {
+			return new DefaultParamParser(inputStream, targetClass, columnSize, header, sheetNum);
 		}
 	}
 }

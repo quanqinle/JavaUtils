@@ -2,8 +2,6 @@ package com.github.quanqinle.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -12,7 +10,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.junit.Test;
 
 import com.github.quanqinle.util.ReadExcel;
@@ -23,23 +20,23 @@ import com.github.quanqinle.util.ReadExcel;
  */
 public class ExeclTest {
 
-  public Workbook createWorkbook(String filenameInResource) {
-    InputStream inp = Thread.currentThread().getContextClassLoader().getResourceAsStream("" + filenameInResource);
-    Workbook workbook = null;
+	public Workbook createWorkbook(String filenameInResource) {
+		InputStream inp = Thread.currentThread().getContextClassLoader().getResourceAsStream("" + filenameInResource);
+		Workbook workbook = null;
 
-    try {
-      workbook = WorkbookFactory.create(inp);
-    } catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
-      e.printStackTrace();
-    }
-    return workbook;
-  }
-  
+		try {
+			workbook = WorkbookFactory.create(inp);
+		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+			e.printStackTrace();
+		}
+		return workbook;
+	}
+
 	private InputStream getInputStream(String fileName) {
 		return Thread.currentThread().getContextClassLoader().getResourceAsStream("" + fileName);
 	}
 
-//	@Test
+	// @Test
 	public void readExcel_01() {
 		// Use an InputStream, needs more memory
 		Workbook workbook = null;
@@ -61,7 +58,7 @@ public class ExeclTest {
 					line = line + cell.getAddress().toString() + ":" + ReadExcel.getValue(cell) + ", ";
 				}
 				System.err.println(row.getRowNum() + "-->" + line);
-				rownum ++;
+				rownum++;
 			}
 		}
 
@@ -95,7 +92,7 @@ public class ExeclTest {
 				line = line + ReadExcel.getValue(cell) + ", ";
 			}
 			System.err.println(rownum + "-->" + line);
-			rownum ++;
+			rownum++;
 		}
 
 		try {

@@ -1,20 +1,20 @@
 package com.github.quanqinle.util.excelutil.parser.impl;
 
-import com.github.quanqinle.util.excelutil.handler.impl.ExcelDomParseHandler;
-import com.github.quanqinle.util.excelutil.handler.ExcelParseHandler;
+import com.github.quanqinle.util.excelutil.handler.impl.ExcelDomParserHandler;
+import com.github.quanqinle.util.excelutil.handler.ExcelParserHandler;
 
 import java.io.InputStream;
 
 public class ExcelDomParser<T> extends AbstractExcelParser<T> {
 
-	private ExcelParseHandler<T> excelParseHandler;
+	private ExcelParserHandler<T> excelParserHandler;
 
 	public ExcelDomParser() {
-		this.excelParseHandler = new ExcelDomParseHandler<>();
+		this.excelParserHandler = new ExcelDomParserHandler<>();
 	}
 
 	@Override
-	protected ExcelParseHandler<T> createHandler(InputStream excelInputStream) {
-		return this.excelParseHandler;
+	protected ExcelParserHandler<T> createHandler(InputStream excelInputStream) {
+		return this.excelParserHandler;
 	}
 }

@@ -1,9 +1,9 @@
 package com.github.quanqinle.util.excelutil.handler.impl;
 
 import com.github.quanqinle.util.LogUtil;
-import com.github.quanqinle.util.excelutil.handler.ExcelParseHandler;
+import com.github.quanqinle.util.excelutil.handler.ExcelParserHandler;
 import com.github.quanqinle.util.excelutil.meta.ExcelField;
-import com.github.quanqinle.util.excelutil.param.ParserParam;
+import com.github.quanqinle.util.excelutil.param.ParamParser;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-abstract class BaseExcelParseHandler<T> implements ExcelParseHandler<T> {
+abstract class BaseExcelParserHandler<T> implements ExcelParserHandler<T> {
 
 	private boolean head = true;
 
-	<T> Optional<T> parseRowToTarget(ParserParam parserParam, List<String> rowData) {
+	<T> Optional<T> parseRowToTarget(ParamParser paramParser, List<String> rowData) {
 		if (isRowDataEmpty(rowData)) {
 			return Optional.empty();
 		}
 
 		try {
-			T t = doParseRowToTarget(rowData, parserParam.getTargetClass());
+			T t = doParseRowToTarget(rowData, paramParser.getTargetClass());
 			return Optional.of(t);
 		} catch (Exception e) {
 			LogUtil.error("AbstractExcelParser - parseRowToTarget" + e);
@@ -65,26 +65,26 @@ abstract class BaseExcelParseHandler<T> implements ExcelParseHandler<T> {
 		return true;
 	}
 
-	void validHeader(ParserParam parserParam, List<String> rowData) {
+	void validHeader(ParamParser paramParser, List<String> rowData) {
 		int index = 0;
-		if (rowData.size() != parserParam.getHeader().size()) {
+		if (rowData.size() != paramParser.getHeader().size()) {
 			throw new IllegalArgumentException("Excel Header Check Failed");
 		}
-		for (String head : parserParam.getHeader()) {
+		for (String head : paramParser.getHeader()) {
 			if (!Objects.equals(rowData.get(index++), head.trim())) {
 				throw new IllegalArgumentException("Excel Header Check Failed");
 			}
 		}
 	}
 
-	protected void handleEndOfRow(ParserParam parserParam, List<String> rowData, List<T> result) {
+	protected void handleEndOfRow(ParamParser paramParser, List<String> rowData, List<T> result) {
 		boolean empty = isRowDataEmpty(rowData);
 		if (!empty) {
-			if (head && parserParam.getHeader() != null && parserParam.getHeader().size() != 0) {
-				validHeader(parserParam, rowData);
+			if (head && paramParser.getHeader() != null && paramParser.getHeader().size() != 0) {
+				validHeader(paramParser, rowData);
 				head = false;
 			} else {
-				Optional<T> t = parseRowToTarget(parserParam, rowData);
+				Optional<T> t = parseRowToTarget(paramParser, rowData);
 				t.ifPresent(result::add);
 			}
 		}

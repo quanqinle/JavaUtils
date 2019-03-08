@@ -15,7 +15,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.github.quanqinle.util.excelutil.param.ParserParam;
+import com.github.quanqinle.util.excelutil.param.ParamParser;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
@@ -23,20 +23,20 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Excel2007ParseHandler<T> extends BaseExcelParseHandler<T>
+public class Excel2007ParserHandler<T> extends BaseExcelParserHandler<T>
     implements XSSFSheetXMLHandler.SheetContentsHandler {
 
 	private int currentRow = -1;
 	private int currentCol = -1;
-	private ParserParam parserParam;
+	private ParamParser paramParser;
 	private List<T> result;
 	private List<String> rowData;
 
-	public List<T> process(ParserParam parserParam) throws Exception {
-		this.parserParam = parserParam;
+	public List<T> process(ParamParser paramParser) throws Exception {
+		this.paramParser = paramParser;
 		result = new ArrayList<>();
-		rowData = initRowList(parserParam.getColumnSize());
-		OPCPackage xlsxPackage = OPCPackage.open(parserParam.getExcelInputStream());
+		rowData = initRowList(paramParser.getColumnSize());
+		OPCPackage xlsxPackage = OPCPackage.open(paramParser.getExcelInputStream());
 		ReadOnlySharedStringsTable strings = new ReadOnlySharedStringsTable(xlsxPackage, false);
 		XSSFReader xssfReader = new XSSFReader(xlsxPackage);
 		StylesTable styles = xssfReader.getStylesTable();
@@ -44,7 +44,7 @@ public class Excel2007ParseHandler<T> extends BaseExcelParseHandler<T>
 		int needParse = 0;
 		while (iter.hasNext()) {
 			InputStream stream = iter.next();
-			if (needParse++ == parserParam.getSheetNum()) {
+			if (needParse++ == paramParser.getSheetNum()) {
 				processSheet(styles, strings, this, stream);
 			}
 			stream.close();
@@ -75,8 +75,8 @@ public class Excel2007ParseHandler<T> extends BaseExcelParseHandler<T>
 
 	@Override
 	public void endRow(int rowNum) {
-		handleEndOfRow(parserParam, rowData, result);
-		rowData = initRowList(parserParam.getColumnSize());
+		handleEndOfRow(paramParser, rowData, result);
+		rowData = initRowList(paramParser.getColumnSize());
 		currentCol = -1;
 	}
 
@@ -88,7 +88,7 @@ public class Excel2007ParseHandler<T> extends BaseExcelParseHandler<T>
 		}
 
 		currentCol = (new CellReference(cellReference)).getCol();
-		if (currentCol < parserParam.getColumnSize())
+		if (currentCol < paramParser.getColumnSize())
 			rowData.set(currentCol, formattedValue.trim());
 	}
 

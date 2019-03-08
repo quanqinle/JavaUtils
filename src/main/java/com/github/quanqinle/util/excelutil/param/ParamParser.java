@@ -3,7 +3,7 @@ package com.github.quanqinle.util.excelutil.param;
 import java.io.InputStream;
 import java.util.List;
 
-public interface ParserParam {
+public interface ParamParser {
 
 	Integer FIRST_SHEET = 0;
 
