@@ -10,7 +10,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.junit.Test;
 
 import com.github.quanqinle.util.ReadExcel;
 
@@ -69,7 +68,7 @@ public class ExeclTest {
 		}
 	}
 
-	@Test
+//	@Test
 	public void readExcel_02() {
 		// Use an InputStream, needs more memory
 		Workbook workbook = null;

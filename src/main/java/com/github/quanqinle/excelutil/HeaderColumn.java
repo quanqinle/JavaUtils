@@ -284,7 +284,7 @@ public class HeaderColumn {
 					if (headerCell.isMe(value)) {
 						headerCell.setIndex(rowIdx);
 						this.setColumnIndex(Math.max(this.getColumnIndex(), cell.getColumnIndex()));
-						lastColIdx = colIdx + this.multiLevel;
+						int lastColIdx = colIdx + this.multiLevel;
 						break;
 					}
 				}

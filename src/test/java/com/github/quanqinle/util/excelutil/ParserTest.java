@@ -6,11 +6,12 @@ import com.github.quanqinle.util.excelutil.parser.ExcelParser;
 import com.github.quanqinle.util.excelutil.parser.impl.ExcelDomParser;
 import com.github.quanqinle.util.excelutil.parser.impl.ExcelSaxParser;
 
-import org.junit.Test;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 
-import static org.junit.Assert.fail;
+import org.junit.Test;
+
 
 public class ParserTest {
 
