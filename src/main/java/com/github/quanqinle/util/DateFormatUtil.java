@@ -4,13 +4,14 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 日期格式化工具类
  *
- * @Author:chenssy
- * @date:2016年5月26日 下午12:39:57
+ * @Author: quanqinle
  */
-public class DateFormatUtils {
+public class DateFormatUtil {
 	/**
 	 * yyyy:年
 	 */
@@ -69,56 +70,67 @@ public class DateFormatUtils {
 	/**
 	 * 格式转换<br>
 	 * yyyy-MM-dd hh:mm:ss 和 yyyyMMddhhmmss 相互转换<br>
-	 * yyyy-mm-dd 和yyyymmss 相互转换
+	 * yyyy-mm-dd 和 yyyymmss 相互转换
 	 *
 	 * @param value
 	 *          日期
 	 * @return String
-	 * @author chenssy
-	 * @date Dec 26, 2013
 	 */
 	public static String formatString(String value) {
 		String sReturn = "";
-		if (value == null || "".equals(value))
+		if (StringUtils.isBlank(value)) {
 			return sReturn;
-		if (value.length() == 14) { // 长度为14格式转换成yyyy-mm-dd hh:mm:ss
+		}
+		/*
+		 * yyyymmddhhmmss 格式转换成 yyyy-mm-dd hh:mm:ss
+		 */
+		if (value.length() == 14) {
 			sReturn = value.substring(0, 4) + "-" + value.substring(4, 6) + "-" + value.substring(6, 8) + " "
 			    + value.substring(8, 10) + ":" + value.substring(10, 12) + ":" + value.substring(12, 14);
-			return sReturn;
 		}
-		if (value.length() == 19) { // 长度为19格式转换成yyyymmddhhmmss
-			sReturn = value.substring(0, 4) + value.substring(5, 7) + value.substring(8, 10) + value.substring(11, 13)
-			    + value.substring(14, 16) + value.substring(17, 19);
-			return sReturn;
+		/*
+		 * yyyy-mm-dd hh:mm:ss 格式转换成 yyyymmddhhmmss
+		 */
+		else if (value.length() == 19) {
+			sReturn.replace("-", "").replace(":", "").replace(" ", "");
 		}
-		if (value.length() == 10) { // 长度为10格式转换成yyyymmhh
-			sReturn = value.substring(0, 4) + value.substring(5, 7) + value.substring(8, 10);
+		/*
+		 * yyyy-mm-dd 格式转换成 yyyymmhh
+		 */
+		else if (value.length() == 10) {
+			sReturn.replace("-", "");
 		}
-		if (value.length() == 8) { // 长度为8格式转化成yyyy-mm-dd
+		/*
+		 * yyyy-mm-dd 格式转换成 yyyymmhh
+		 */
+		else if (value.length() == 8) {
 			sReturn = value.substring(0, 4) + "-" + value.substring(4, 6) + "-" + value.substring(6, 8);
 		}
 		return sReturn;
 	}
 
+	/**
+	 * 将日期字符串解析成指定的格式
+	 * @param date
+	 * @param format
+	 * @return 如解析失败，则直接返回date
+	 */
 	public static String formatDate(String date, String format) {
-		if (date == null || "".equals(date)) {
+		if (StringUtils.isBlank(date)) {
 			return "";
 		}
+		date = date.replace("-", "").replace(":", "").trim();
+		if (StringUtils.isBlank(date)) {
+			return "";
+		}
+		
 		Date dt = null;
 		SimpleDateFormat inFmt = null;
 		SimpleDateFormat outFmt = null;
 		ParsePosition pos = new ParsePosition(0);
-		date = date.replace("-", "").replace(":", "");
-		if ((date == null) || ("".equals(date.trim())))
-			return "";
+
 		try {
-			if (Long.parseLong(date) == 0L)
-				return "";
-		} catch (Exception nume) {
-			return date;
-		}
-		try {
-			switch (date.trim().length()) {
+			switch (date.length()) {
 			case 14:
 				inFmt = new SimpleDateFormat("yyyyMMddHHmmss");
 				break;
@@ -141,9 +153,11 @@ public class DateFormatUtils {
 			default:
 				return date;
 			}
-			if ((dt = inFmt.parse(date, pos)) == null)
+			
+			if ((dt = inFmt.parse(date, pos)) == null) {
 				return date;
-			if ((format == null) || ("".equals(format.trim()))) {
+			}
+			if (StringUtils.isBlank(format)) {
 				outFmt = new SimpleDateFormat("yyyy年MM月dd日");
 			} else {
 				outFmt = new SimpleDateFormat(format);
@@ -164,7 +178,7 @@ public class DateFormatUtils {
 	 * @date 2016年5月31日
 	 */
 	public static String formatDate(Date date, String format) {
-		return formatDate(DateUtils.date2String(date), format);
+		return formatDate(DateTimeUtil.date2String(date), format);
 	}
 
 	/**
@@ -175,7 +189,7 @@ public class DateFormatUtils {
 	 * @date:2014年8月6日
 	 */
 	public static String formatDate(String value) {
-		return getFormat(DATE_FORMAT2).format(DateUtils.string2Date(value, DATE_FORMAT2));
+		return getFormat(DATE_FORMAT2).format(DateTimeUtil.string2Date(value, DATE_FORMAT2));
 	}
 
 	/**
@@ -187,21 +201,30 @@ public class DateFormatUtils {
 	 * @date : 2016年5月31日 下午5:40:58
 	 */
 	public static String formatDate(Date value) {
-		return formatDate(DateUtils.date2String(value));
+		return formatDate(DateTimeUtil.date2String(value));
 	}
 
 	/**
-	 * 获取日期显示格式，为空默认为yyyy-mm-dd HH:mm:ss
+	 * 构建日期显示格式。入参为空，则默认为yyyy-mm-dd HH:mm:ss
 	 *
 	 * @param format
 	 * @return SimpleDateFormat
-	 * @author chenssy
-	 * @date Dec 30, 2013
 	 */
 	protected static SimpleDateFormat getFormat(String format) {
-		if (format == null || "".equals(format)) {
+		if (StringUtils.isBlank(format)) {
 			format = DATE_FORMAT2;
 		}
 		return new SimpleDateFormat(format);
+	}
+	
+	public static void main(String[] args) {
+		LogUtil.info("start:" + DateTimeUtil.getCurrentDateTime());
+
+		String s = null;
+//		LogUtil.info(s.replace("-", "")); // fail
+
+		s = "";
+		LogUtil.info(s.replace("-", "")); // ok
+		LogUtil.info("end  :" + DateTimeUtil.getCurrentDateTime());
 	}
 }

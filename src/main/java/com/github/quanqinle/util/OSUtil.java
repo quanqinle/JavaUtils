@@ -27,9 +27,11 @@ public class OSUtil {
 	 * 		List<String> command = new ArrayList<String>();
 	 * 		command.add("ffmpeg.exe");
 	 * 		command.add("-i"); 
+	 * @return
 	 */
-	public static void runCmd(List<String> command) {
+	public static String runCmd(List<String> command) {
 //		command::forEach(System.out::print);
+		String result = "";
 		System.out.println("command: " + command.toString());
 		ProcessBuilder builder = new ProcessBuilder();
 		builder.command(command);
@@ -48,7 +50,7 @@ public class OSUtil {
 				sbf.append("\n");
 				System.out.println(line);
 			}
-//			String result = sbf.toString();
+			result = sbf.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -56,6 +58,7 @@ public class OSUtil {
 				process.destroy();
 			}
 		}
+		return result;
 	}
 	
 	/**

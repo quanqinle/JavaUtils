@@ -263,12 +263,12 @@ public class ReadExcel {
 			// 当长度为19(yyyy-MM-dd
 			// HH24:mm:ss)或者为14(yyyyMMddHH24mmss)时Date格式转换为yyyyMMddHH24mmss
 			if (value.length() == 19 || value.length() == 14) {
-				oo = DateUtils.string2Date(value, "yyyyMMddHH24mmss");
+				oo = DateTimeUtil.string2Date(value, "yyyyMMddHH24mmss");
 			} else { // 其余全部转换为yyyyMMdd格式
-				oo = DateUtils.string2Date(value, "yyyyMMdd");
+				oo = DateTimeUtil.string2Date(value, "yyyyMMdd");
 			}
 		} else if ("java.sql.Timestamp".equals(type)) {
-			oo = DateFormatUtils.formatDate(value, "yyyyMMddHH24mmss");
+			oo = DateFormatUtil.formatDate(value, "yyyyMMddHH24mmss");
 		} else if ("java.lang.Boolean".equals(type) || "Boolean".equals(type)) {
 			oo = Boolean.valueOf(value);
 		} else if ("java.lang.Long".equals(type) || "java.lang.long".equals(type) || "Long".equals(type)

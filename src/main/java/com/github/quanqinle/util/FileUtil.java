@@ -7,17 +7,22 @@
  ***********************************************************************/
 package com.github.quanqinle.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,28 +151,10 @@ public class FileUtil {
 	 *          需要复制文件的路径
 	 * @param newPath
 	 *          复制后的完整路径
-	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	public void copyFile(String oldPath, String newPath) throws IOException {
-		int byteread = 0;
-		File oldfile = new File(oldPath);
-		File newFile = new File(newPath);
-		if (newFile.exists()) {
-			newFile.delete();
-		}
-		if (oldfile.exists()) { // 文件存在时
-			InputStream inStream = new FileInputStream(oldPath); // 读入原文件
-			FileOutputStream fs = new FileOutputStream(newPath);
-			byte[] buffer = new byte[1444];
-			while ((byteread = inStream.read(buffer)) != -1) {
-				fs.write(buffer, 0, byteread);
-			}
-			fs.close();
-			inStream.close();
-		} else {
-			throw new FileNotFoundException("未找到" + oldPath + "文件");
-		}
+		Files.copy(Paths.get(oldPath), Paths.get(newPath));
 	}
 
 	/**
@@ -357,4 +344,133 @@ public class FileUtil {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * 简单获取文件编码格式。只支持纯文本少量几种编码格式
+	 *
+	 * @param file
+	 *          文件
+	 * @return 文件编码
+	 */
+	public static String getFileCharsetSimple(final File file) {
+		int p = 0;
+		InputStream is = null;
+		try {
+			is = new BufferedInputStream(new FileInputStream(file));
+			p = (is.read() << 8) + is.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			CloseUtils.closeIO(is);
+		}
+		switch (p) {
+		case 0xefbb:
+			return "UTF-8";
+		case 0xfffe:
+			return "Unicode";
+		case 0xfeff:
+			return "UTF-16BE";
+		default:
+			return "GBK";
+		}
+	}
+
+	/**
+	 * 删除目录树
+	 * 
+	 * @param dir
+	 * @throws IOException
+	 */
+	public static void rmdir(Path dir) throws IOException {
+		Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				Files.delete(file);
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				Files.delete(dir);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+	}
+
+
+	/**
+	 * 获取文件的MD5校验码
+	 *
+	 * @param file
+	 *          文件
+	 * @return 文件的MD5校验码
+	 */
+	public static String getFileMD5ToString(final File file) {
+		return bytes2HexString(getFileMD5(file));
+	}
+
+	/**
+	 * 获取文件的MD5校验码
+	 *
+	 * @param file
+	 *          文件
+	 * @return 文件的MD5校验码
+	 */
+	public static byte[] getFileMD5(final File file) {
+		if (file == null) {
+			return null;
+		}
+		DigestInputStream dis = null;
+		try {
+			FileInputStream fis = new FileInputStream(file);
+			MessageDigest md = MessageDigest.getInstance("MD5");
+			dis = new DigestInputStream(fis, md);
+			byte[] buffer = new byte[1024 * 256];
+			while (true) {
+				if (!(dis.read(buffer) > 0))
+					break;
+			}
+			md = dis.getMessageDigest();
+			return md.digest();
+		} catch (NoSuchAlgorithmException | IOException e) {
+			e.printStackTrace();
+		} finally {
+			CloseUtils.closeIO(dis);
+		}
+		return null;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	// copy from ConvertUtils
+	///////////////////////////////////////////////////////////////////////////
+
+	private static final char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
+	    'F' };
+
+	/**
+	 * byteArr转hexString
+	 * <p>
+	 * 例如：
+	 * </p>
+	 * bytes2HexString(new byte[] { 0, (byte) 0xa8 }) returns 00A8
+	 *
+	 * @param bytes
+	 *          字节数组
+	 * @return 16进制大写字符串
+	 */
+	private static String bytes2HexString(final byte[] bytes) {
+		if (bytes == null)
+			return null;
+		int len = bytes.length;
+		if (len <= 0)
+			return null;
+		char[] ret = new char[len << 1];
+		for (int i = 0, j = 0; i < len; i++) {
+			ret[j++] = hexDigits[bytes[i] >>> 4 & 0x0f];
+			ret[j++] = hexDigits[bytes[i] & 0x0f];
+		}
+		return new String(ret);
+	}
+	
 }
