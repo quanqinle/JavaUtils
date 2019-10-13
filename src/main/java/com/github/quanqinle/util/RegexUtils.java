@@ -13,6 +13,7 @@ public class RegexUtils {
 
 	public static void main(String[] agrs) {
 		System.out.println(find(" page 36 ", "^\\s[pP]age[\\s0-9]*$"));
+		System.out.println(find("S03E12", "^S\\d\\dE\\d\\d$"));
 	}
 
 	/**

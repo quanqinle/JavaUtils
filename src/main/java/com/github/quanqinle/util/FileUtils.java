@@ -342,7 +342,7 @@ public final class FileUtils {
 		if (!createOrExistsDir(destFile.getParentFile()))
 			return false;
 		try {
-			return FileIOUtils.writeFileFromIS(destFile, new FileInputStream(srcFile), false)
+			return FileIOUtil.writeFileFromIS(destFile, new FileInputStream(srcFile), false)
 			    && !(isMove && !deleteFile(srcFile));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
