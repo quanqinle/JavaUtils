@@ -14,6 +14,9 @@ public class RegexUtils {
 	public static void main(String[] agrs) {
 		System.out.println(find(" page 36 ", "^\\s[pP]age[\\s0-9]*$"));
 		System.out.println(find("S03E12", "^S\\d\\dE\\d\\d$"));
+		String num = "1000_12345";
+		System.out.println(Pattern.compile("\\d{4}_\\d{4}").matcher(num).matches());
+		System.out.println(Pattern.compile("\\d{4}_\\d{4}").matcher(num).matches());
 	}
 
 	/**

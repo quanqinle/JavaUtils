@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.github.quanqinle.util;
 
 import java.io.BufferedReader;
@@ -9,7 +6,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * @author quanql
+ * 
+ * @author 权芹乐
  *
  */
 public class OSUtil {
@@ -18,7 +16,6 @@ public class OSUtil {
 	 * 
 	 */
 	public OSUtil() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -61,12 +58,4 @@ public class OSUtil {
 		return result;
 	}
 	
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
