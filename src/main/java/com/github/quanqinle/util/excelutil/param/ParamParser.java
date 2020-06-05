@@ -5,15 +5,15 @@ import java.util.List;
 
 public interface ParamParser {
 
-	Integer FIRST_SHEET = 0;
+    Integer FIRST_SHEET = 0;
 
-	InputStream getExcelInputStream();
+    InputStream getExcelInputStream();
 
-	Class<?> getTargetClass();
+    Class<?> getTargetClass();
 
-	Integer getColumnSize();
+    Integer getColumnSize();
 
-	Integer getSheetNum();
+    Integer getSheetNum();
 
-	List<String> getHeader();
+    List<String> getHeader();
 }

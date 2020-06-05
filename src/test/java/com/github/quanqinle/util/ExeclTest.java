@@ -19,85 +19,85 @@ import com.github.quanqinle.util.ReadExcel;
  */
 public class ExeclTest {
 
-	public Workbook createWorkbook(String filenameInResource) {
-		InputStream inp = Thread.currentThread().getContextClassLoader().getResourceAsStream("" + filenameInResource);
-		Workbook workbook = null;
+    public Workbook createWorkbook(String filenameInResource) {
+        InputStream inp = Thread.currentThread().getContextClassLoader().getResourceAsStream("" + filenameInResource);
+        Workbook workbook = null;
 
-		try {
-			workbook = WorkbookFactory.create(inp);
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
-			e.printStackTrace();
-		}
-		return workbook;
-	}
+        try {
+            workbook = WorkbookFactory.create(inp);
+        } catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+            e.printStackTrace();
+        }
+        return workbook;
+    }
 
-	private InputStream getInputStream(String fileName) {
-		return Thread.currentThread().getContextClassLoader().getResourceAsStream("" + fileName);
-	}
+    private InputStream getInputStream(String fileName) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream("" + fileName);
+    }
 
-	// @Test
-	public void readExcel_01() {
-		// Use an InputStream, needs more memory
-		Workbook workbook = null;
+    // @Test
+    public void readExcel_01() {
+        // Use an InputStream, needs more memory
+        Workbook workbook = null;
 
-		try {
-			workbook = WorkbookFactory.create(getInputStream("2007_1.xlsx"));
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            workbook = WorkbookFactory.create(getInputStream("2007_1.xlsx"));
+        } catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+            e.printStackTrace();
+        }
 
-		for (Sheet sheet : workbook) {
-			int rownum = 0;
-			for (Row row : sheet) {
-				if (rownum > 10) {
-					break;
-				}
-				String line = "";
-				for (Cell cell : row) {
-					line = line + cell.getAddress().toString() + ":" + ReadExcel.getValue(cell) + ", ";
-				}
-				System.err.println(row.getRowNum() + "-->" + line);
-				rownum++;
-			}
-		}
+        for (Sheet sheet : workbook) {
+            int rownum = 0;
+            for (Row row : sheet) {
+                if (rownum > 10) {
+                    break;
+                }
+                String line = "";
+                for (Cell cell : row) {
+                    line = line + cell.getAddress().toString() + ":" + ReadExcel.getValue(cell) + ", ";
+                }
+                System.err.println(row.getRowNum() + "-->" + line);
+                rownum++;
+            }
+        }
 
-		try {
-			workbook.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-//	@Test
-	public void readExcel_02() {
-		// Use an InputStream, needs more memory
-		Workbook workbook = null;
+    // @Test
+    public void readExcel_02() {
+        // Use an InputStream, needs more memory
+        Workbook workbook = null;
 
-		try {
-			workbook = WorkbookFactory.create(getInputStream("财务数据.xls"));
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            workbook = WorkbookFactory.create(getInputStream("财务数据.xls"));
+        } catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+            e.printStackTrace();
+        }
 
-		Sheet sheet = workbook.getSheet("所有者权益变动表");
+        Sheet sheet = workbook.getSheet("所有者权益变动表");
 
-		int rownum = 0;
-		for (Row row : sheet) {
-			if (rownum > 10) {
-				break;
-			}
-			String line = "";
-			for (Cell cell : row) {
-				line = line + ReadExcel.getValue(cell) + ", ";
-			}
-			System.err.println(rownum + "-->" + line);
-			rownum++;
-		}
+        int rownum = 0;
+        for (Row row : sheet) {
+            if (rownum > 10) {
+                break;
+            }
+            String line = "";
+            for (Cell cell : row) {
+                line = line + ReadExcel.getValue(cell) + ", ";
+            }
+            System.err.println(rownum + "-->" + line);
+            rownum++;
+        }
 
-		try {
-			workbook.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        try {
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

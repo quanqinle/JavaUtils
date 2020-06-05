@@ -13,6 +13,6 @@ import com.github.quanqinle.util.excelutil.param.ParamParser;
  */
 public interface ExcelParserHandler<T> {
 
-	List<T> process(ParamParser paramParser) throws Exception;
+    List<T> process(ParamParser paramParser) throws Exception;
 
 }

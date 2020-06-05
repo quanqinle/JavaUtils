@@ -12,20 +12,20 @@ import java.io.InputStream;
 
 public class ExcelSaxParser<T> extends AbstractExcelParser<T> {
 
-	public ExcelParserHandler<T> createHandler(InputStream excelInputStream) {
-		try {
-			byte[] header8 = IOUtils.peekFirst8Bytes(excelInputStream);
-			if (NPOIFSFileSystem.hasPOIFSHeader(header8)) {
-				return new Excel2003ParserHandler<>();
-			} else if (DocumentFactoryHelper.hasOOXMLHeader(excelInputStream)) {
-				return new Excel2007ParserHandler<>();
-			} else {
-				throw new IllegalArgumentException("Your InputStream was neither an OLE2 stream, nor an OOXML stream");
-			}
-		} catch (Exception e) {
-			LogUtil.error("getParserInstance Error!" + e);
-			throw new RuntimeException(e);
-		}
-	}
+    public ExcelParserHandler<T> createHandler(InputStream excelInputStream) {
+        try {
+            byte[] header8 = IOUtils.peekFirst8Bytes(excelInputStream);
+            if (NPOIFSFileSystem.hasPOIFSHeader(header8)) {
+                return new Excel2003ParserHandler<>();
+            } else if (DocumentFactoryHelper.hasOOXMLHeader(excelInputStream)) {
+                return new Excel2007ParserHandler<>();
+            } else {
+                throw new IllegalArgumentException("Your InputStream was neither an OLE2 stream, nor an OOXML stream");
+            }
+        } catch (Exception e) {
+            LogUtil.error("getParserInstance Error!" + e);
+            throw new RuntimeException(e);
+        }
+    }
 
 }

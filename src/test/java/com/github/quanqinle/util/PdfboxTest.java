@@ -14,7 +14,9 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.apache.pdfbox.multipdf.PageExtractor;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -32,75 +34,84 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class PdfboxTest {
 
-	public static void main(String[] args) throws IOException {
-		testGetAreaContent();
-	}
+    public static void main(String[] args) throws IOException {
+        // testGetAreaContent();
+        testExractPages();
+    }
 
-	public static void handlePdf() throws IOException {
-		// Loading an existing document
-		File file = new File("C:\\Users\\quanql\\Desktop\\《码出高效：Java开发手册》_杨冠宝等- AiBooKs.Cc.pdf");
-		PDDocument doc = PDDocument.load(file);
+    public static void testExractPages() {
+        String src = "D:\\data\\desktop临时存储\\《阿里巴巴Java开发手册》泰山版202004.pdf";
+        String dst = "C:\\Users\\quanql\\Desktop\\11.pdf";
+        int start = 49;
+        int end = 51;
+        PdfUtil.extractPages(src, dst, start, end);
+    }
 
-		// Listing the number of existing pages
-		LogUtil.info("total page count: " + doc.getNumberOfPages());
+    public static void delPages() throws IOException {
+        // Loading an existing document
+        File file = new File("C:\\Users\\quanql\\Desktop\\《码出高效：Java开发手册》_杨冠宝等- AiBooKs.Cc.pdf");
+        PDDocument doc = PDDocument.load(file);
 
-		/**
-		 * note! 请倒序删，否则破坏了预期排序
-		 */
-		int[] pages = { 378, 133, 77, 33 };
-		for (int i : pages) {
-			// removing the pages
-			doc.removePage(i - 1);
-		}
+        // Listing the number of existing pages
+        LogUtil.info("total page count: " + doc.getNumberOfPages());
 
-		// Saving the document
-		doc.save("C:\\Users\\quanql\\Desktop\\《码出高效：Java开发手册》_杨冠宝等- AiBooKs.new.pdf");
+        /**
+         * note! 请倒序删，否则破坏了预期排序
+         */
+        int[] pages = { 378, 133, 77, 33 };
+        for (int i : pages) {
+            // removing the pages
+            doc.removePage(i - 1);
+        }
 
-		// Closing the document
-		doc.close();
-	}
+        // Saving the document
+        doc.save("C:\\Users\\quanql\\Desktop\\《码出高效：Java开发手册》_杨冠宝等- AiBooKs.new.pdf");
 
-	public static void testGetAreaContent() {
-		String pdfPath = "D:\\218828-20200514.pdf";
+        // Closing the document
+        doc.close();
+    }
 
-		Rectangle textRrect = new Rectangle(420, 80, 130, 245);
+    public static void testGetAreaContent() {
+        String pdfPath = "D:\\218828-20200514.pdf";
 
-		String strContent = PdfUtil.readTextByRectangel(pdfPath, 0, textRrect);
+        Rectangle textRrect = new Rectangle(420, 80, 130, 245);
 
-		LogUtil.info(strContent);
+        String strContent = PdfUtil.readTextByRectangel(pdfPath, 0, textRrect);
 
-		// 保存图片
-		Rectangle imgRrect = new Rectangle(0, 0, 100, 100);
-		BufferedImage bufImage = PdfUtil.readImageByRectangel(pdfPath, 0, imgRrect);
+        LogUtil.info(strContent);
 
-		File outputfile = new File("D:\\pdfImage2.png");
-		try {
-			ImageIO.write(bufImage, "png", outputfile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        // 保存图片
+        Rectangle imgRrect = new Rectangle(0, 0, 100, 100);
+        BufferedImage bufImage = PdfUtil.readImageByRectangel(pdfPath, 0, imgRrect);
 
-		try {
-			LogUtil.info("图片内容：" + readQRCode("D:\\pdfImage2.png"));
-		} catch (NotFoundException | IOException e) {
-			e.printStackTrace();
-		}
+        File outputfile = new File("D:\\pdfImage2.png");
+        try {
+            ImageIO.write(bufImage, "png", outputfile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	}
+        try {
+            LogUtil.info("图片内容：" + readQRCode("D:\\pdfImage2.png"));
+        } catch (NotFoundException | IOException e) {
+            e.printStackTrace();
+        }
 
-	/**
-	 * 
-	 * @param filePath
-	 * @return
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws NotFoundException
-	 */
-	public static String readQRCode(String filePath) throws FileNotFoundException, IOException, NotFoundException {
-		Map<DecodeHintType, ErrorCorrectionLevel> decodeMap = new HashMap<DecodeHintType, ErrorCorrectionLevel>();
-		return new MultiFormatReader().decode(
-		    new BinaryBitmap(
-		        new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(filePath))))),
-		    decodeMap).getText();
-	}
+    }
+
+    /**
+     * 
+     * @param filePath
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws NotFoundException
+     */
+    public static String readQRCode(String filePath) throws FileNotFoundException, IOException, NotFoundException {
+        Map<DecodeHintType, ErrorCorrectionLevel> decodeMap = new HashMap<DecodeHintType, ErrorCorrectionLevel>();
+        return new MultiFormatReader()
+                .decode(new BinaryBitmap(new HybridBinarizer(
+                        new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(filePath))))), decodeMap)
+                .getText();
+    }
 }

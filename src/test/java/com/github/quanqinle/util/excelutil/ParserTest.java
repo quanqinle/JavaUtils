@@ -12,117 +12,122 @@ import java.util.List;
 
 import org.junit.Test;
 
-
 public class ParserTest {
 
-	private ExcelParser<User> parser;
+    private ExcelParser<User> parser;
 
-	@Test
-	public void testDomXlsx() {
+    @Test
+    public void testDomXlsx() {
 
-		parser = new ExcelDomParser<>();
+        parser = new ExcelDomParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xlsx"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader()).build();
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xlsx"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader())
+                .build();
 
-		List<User> user = parser.parse(paramParser);
-		System.out.println(user);
-	}
+        List<User> user = parser.parse(paramParser);
+        System.out.println(user);
+    }
 
-	@Test
-	public void testDomXls() {
+    @Test
+    public void testDomXls() {
 
-		parser = new ExcelDomParser<>();
+        parser = new ExcelDomParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xls"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader()).build();
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xls"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader())
+                .build();
 
-		List<User> user = parser.parse(paramParser);
-		System.out.println(user);
-	}
+        List<User> user = parser.parse(paramParser);
+        System.out.println(user);
+    }
 
-	@Test
-	public void testSaxXlsx() {
-		parser = new ExcelSaxParser<>();
+    @Test
+    public void testSaxXlsx() {
+        parser = new ExcelSaxParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xlsx"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader()).build();
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xlsx"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader())
+                .build();
 
-		List<User> user = parser.parse(paramParser);
-		System.out.println(user);
-	}
+        List<User> user = parser.parse(paramParser);
+        System.out.println(user);
+    }
 
-	@Test
-	public void testSaxXls() {
-		parser = new ExcelSaxParser<>();
+    @Test
+    public void testSaxXls() {
+        parser = new ExcelSaxParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xls"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader()).build();
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test01.xls"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET).targetClass(User.class).header(User.getHeader())
+                .build();
 
-		List<User> user = parser.parse(paramParser);
-		System.out.println(user);
-	}
+        List<User> user = parser.parse(paramParser);
+        System.out.println(user);
+    }
 
-	@Test
-	public void testSheet02Xls() {
-		parser = new ExcelSaxParser<>();
+    @Test
+    public void testSheet02Xls() {
+        parser = new ExcelSaxParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xls"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getHeader()).build();
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xls"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getHeader())
+                .build();
 
-		List<User> user = parser.parse(paramParser);
-		System.out.println(user);
-	}
+        List<User> user = parser.parse(paramParser);
+        System.out.println(user);
+    }
 
-	@Test
-	public void testSheet02Xlsx() {
-		parser = new ExcelSaxParser<>();
+    @Test
+    public void testSheet02Xlsx() {
+        parser = new ExcelSaxParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xlsx"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getHeader()).build();
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xlsx"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getHeader())
+                .build();
 
-		List<User> user = parser.parse(paramParser);
-		System.out.println(user);
-	}
+        List<User> user = parser.parse(paramParser);
+        System.out.println(user);
+    }
 
-	@Test
-	public void testCheckHeaderErrorXlsx() {
-		parser = new ExcelSaxParser<>();
+    @Test
+    public void testCheckHeaderErrorXlsx() {
+        parser = new ExcelSaxParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xlsx"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getErrHeader())
-		    .build();
-		try {
-			List<User> user = parser.parse(paramParser);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-		fail();
-	}
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xlsx"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getErrHeader())
+                .build();
+        try {
+            List<User> user = parser.parse(paramParser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        fail();
+    }
 
-	@Test
-	public void testCheckHeaderErrorXls() {
-		parser = new ExcelSaxParser<>();
+    @Test
+    public void testCheckHeaderErrorXls() {
+        parser = new ExcelSaxParser<>();
 
-		ParamParser paramParser = DefaultParamParser.builder()
-		    .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xls"))
-		    .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getErrHeader())
-		    .build();
-		try {
-			List<User> user = parser.parse(paramParser);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
-		}
-		fail();
-	}
+        ParamParser paramParser = DefaultParamParser.builder()
+                .excelInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream("test02.xls"))
+                .columnSize(4).sheetNum(ParamParser.FIRST_SHEET + 1).targetClass(User.class).header(User.getErrHeader())
+                .build();
+        try {
+            List<User> user = parser.parse(paramParser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+        fail();
+    }
 
 }
