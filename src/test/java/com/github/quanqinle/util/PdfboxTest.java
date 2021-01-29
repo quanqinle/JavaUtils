@@ -34,7 +34,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class PdfboxTest {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // testGetAreaContent();
         testExractPages();
     }

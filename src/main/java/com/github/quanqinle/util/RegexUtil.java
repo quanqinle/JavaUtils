@@ -19,11 +19,23 @@ public class RegexUtil {
     private static Pattern CHINESE_PATTERN = Pattern.compile("[\u0391-\uFFE5]+$");
 
     public static void main(String[] agrs) {
+        String textColor = "rgba(0, 2, 0, 6)";
+        Pattern c = Pattern.compile("rgba *\\( *([0-9]+), *([0-9]+), *([0-9]+), *([0-9]+) *\\)");
+        Matcher m = c.matcher(textColor);
+        /*
+         * The code will be more robust if add validation to the content of `textColor`
+         */
+        m.matches();
+        System.out.println("1st: " + Integer.valueOf(m.group(1)));
+        System.out.println("1st: " + Integer.valueOf(m.group(2)));
+        System.out.println("1st: " + Integer.valueOf(m.group(3)));
+        System.out.println("1st: " + Integer.valueOf(m.group(4)));
+        
         System.out.println(find(" page 36 ", "^\\s[pP]age[\\s0-9]*$"));
         System.out.println(find("S03E12", "^S\\d\\dE\\d\\d$"));
         String num = "1000_12345";
         System.out.println(Pattern.compile("\\d{4}_\\d{4}").matcher(num).matches());
-        System.out.println(Pattern.compile("\\d{4}_\\d{4}").matcher(num).matches());
+        System.out.println(Pattern.compile("\\d{4}_\\d{5}").matcher(num).matches());
     }
 
     /**

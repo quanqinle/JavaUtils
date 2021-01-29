@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import static io.restassured.config.RedirectConfig.redirectConfig;
+//import io.restassured.config.RestAssuredConfig;
 /**
  * 视频转换。加字幕转成.mp4
  * 
@@ -28,8 +32,10 @@ public class VideoHandle {
     public static void main(String[] args) {
         LogUtil.info("start:" + DateTimeUtil.getCurrentDateTime());
 
-        videosWalk();
-
+//        videosWalk();
+        Response response = RestAssured.given()
+                .config(RestAssured.config().redirect(redirectConfig().followRedirects(false)))
+                .post("/data");
         LogUtil.info("end  :" + DateTimeUtil.getCurrentDateTime());
     }
 
